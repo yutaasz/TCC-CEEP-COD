@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Agendamentos Online</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<style>
+		header {
+			background-color: #C3EAF4;
+			border-radius: 10px;
+			color: #074352;
+			padding: 10px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+		}
+
+		header h1 {
+			margin: 0;
+			display: inline-block;
+		}
+
+		.search-bar {
+            width: 50%;
+            margin: 0 auto;
+        }
+        .search-input {
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            border-radius: 5px 0 0 5px;
+        }
+        .search-btn {
+            border: none;
+            background-color: #fff;
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+
+		.carousel-item img {
+			height: 400px;
+			object-fit: cover;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>HiREit</h1>
+
+		<div class="search-bar">
+			<input type="text" class="search-input" placeholder="Pesquisar...">
+			<button class="search-btn">Buscar</button>
+		</div>
+
+	</header>
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+	
+
+		<ul class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+		</ul>
+
+
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="https://via.placeholder.com/1200x400?text=Image+1" alt="Image 1">
+			</div>
+			<div class="carousel-item">
+				<img src="https://via.placeholder.com/1200x400?text=Image+2" alt="Image 2">
+			</div>
+			<div class="carousel-item">
+				<img src="https://via.placeholder.com/1200x400?text=Image+3" alt="Image 3">
+			</div>
+		</div>
+
+		
+		<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Anterior</span>
+		</a>
+		<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Próximo</span>
+		</a>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

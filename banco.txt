@@ -1,0 +1,126 @@
+DROP TABLE IF EXISTS tb_horarios;
+DROP TABLE IF EXISTS tb_agendas;
+DROP TABLE IF EXISTS tb_agendamentos_servicos;
+DROP TABLE IF EXISTS tb_enderecos;
+DROP TABLE IF EXISTS tb_cidades;
+DROP TABLE IF EXISTS tb_servicos;
+DROP TABLE IF EXISTS tb_usuarios;
+
+CREATE TABLE IF NOT EXISTS tb_usuarios (
+  id_user INT NOT NULL AUTO_INCREMENT,
+  nome_user VARCHAR(45) NOT NULL,
+  cpf_user BIGINT(11) ZEROFILL NOT NULL,
+  telefone_user BIGINT NOT NULL,
+  email_user VARCHAR(45) NOT NULL,
+  senha_user VARCHAR(32) NOT NULL,
+  data_nascimento DATE, -- Adiciona o campo de data de nascimento
+  tipo_user VARCHAR(1) DEFAULT 'C' CHECK (tipo_user IN ('A','C','T')),
+  ativo VARCHAR(1) DEFAULT 'S' CHECK (ativo IN ('S','N')),
+  PRIMARY KEY (id_user)
+);
+
+
+CREATE TABLE IF NOT EXISTS tb_servicos (
+  id_serv INT NOT NULL AUTO_INCREMENT,
+  tipo_serv VARCHAR(45) NOT NULL,
+  nome_serv VARCHAR(45) NOT NULL,
+  valor FLOAT(5,2) NOT NULL,
+  foto VARCHAR(255) NOT NULL,
+  fk_user INT NOT NULL,
+  PRIMARY KEY (id_serv),
+  INDEX fk_servicos_usuarios (fk_user ASC),
+  CONSTRAINT fk_servicos_usuarios
+    FOREIGN KEY (fk_user)
+    REFERENCES tb_usuarios (id_user)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);	
+
+CREATE TABLE tb_cidades (
+id_cidade INT PRIMARY KEY,
+nome VARCHAR(50) NOT NULL,
+estado VARCHAR(2) CHECK (estado IN ('PR'))
+);
+
+CREATE TABLE IF NOT EXISTS tb_enderecos (
+  id_endereco INT NOT NULL AUTO_INCREMENT,
+  rua VARCHAR(45) NOT NULL,
+  cep BIGINT(11) ZEROFILL NOT NULL,
+  numero_casa BIGINT NOT NULL,
+  complemento VARCHAR(50),
+  fk_user INT NOT NULL,
+  fk_cidade INT NOT NULL,
+  PRIMARY KEY (id_endereco),
+  INDEX fk_enderecos_usuarios (fk_user ASC),
+  INDEX fk_enderecos_cidades (fk_cidade ASC),
+  CONSTRAINT fk_enderecos_usuarios
+    FOREIGN KEY (fk_user)
+    REFERENCES tb_usuarios (id_user) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_enderecos_cidades
+    FOREIGN KEY (fk_cidade)
+    REFERENCES tb_cidades (id_cidade) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tb_agendamentos_servicos (
+  id_agend_serv INT NOT NULL AUTO_INCREMENT,
+  fk_serv INT NOT NULL,
+  fk_user INT NOT NULL,
+  valor FLOAT(5,2) NOT NULL,
+  INDEX fk_agendamentos_servicos (fk_serv ASC),
+  INDEX fk_agendamentos_user (fk_user ASC),
+  PRIMARY KEY (id_agend_serv),
+  CONSTRAINT fk_agendamentos_servicos
+    FOREIGN KEY (fk_serv)
+    REFERENCES tb_servicos (id_serv) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_agendamentos_user
+    FOREIGN KEY (fk_user)
+    REFERENCES tb_usuarios (id_user) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tb_agendas (
+  id_agendamento INT NOT NULL AUTO_INCREMENT,
+  data DATE NOT NULL,
+  hr_inicio TIME NOT NULL,
+  tipo_pagamento VARCHAR(1) DEFAULT 'D' CHECK(TIPO_PAGAMENTO IN ('D','P')),
+  fk_agend_serv INT NOT NULL,
+  fk_user INT NOT NULL, -- Adicionando a coluna fk_user
+  PRIMARY KEY (id_agendamento),
+  INDEX fk_agendas_agendamentos (fk_agend_serv ASC),
+  CONSTRAINT fk_agendas_agendamentos
+    FOREIGN KEY (fk_agend_serv)
+    REFERENCES tb_agendamentos_servicos (id_agend_serv) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  INDEX fk_agendas_usuarios (fk_user ASC), -- Índice para a nova coluna fk_user
+  CONSTRAINT fk_agendas_usuarios
+    FOREIGN KEY (fk_user)
+    REFERENCES tb_usuarios (id_user) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS tb_horarios (
+  id_horario INT NOT NULL AUTO_INCREMENT,
+  entrada_manha TIME NOT NULL,
+  entrada_tarde TIME NOT NULL,
+  saida_tarde TIME NOT NULL,
+  dia_semana VARCHAR(45) NOT NULL,
+  saida_manha TIME NOT NULL,
+  fk_user INT NOT NULL,
+  PRIMARY KEY (id_horario),
+  INDEX fk_horarios_usuarios (fk_user ASC),
+  CONSTRAINT fk_horarios_usuarios
+    FOREIGN KEY (fk_user)
+    REFERENCES tb_usuarios (id_user) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
